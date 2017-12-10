@@ -99,7 +99,7 @@ int InsertKey(string key) { // возвращает 0 - число уже есть в таблице 1 - число
 bool FindKey(string key) {
 	int tries = 1;
 	int h = HashFunc(key);
-	int d = 1; //вспомогательная переменная для квадратичных проб
+	int d = 1; //вспомогательная переменная для квадратичных проб 
 
 	while (hashTable[h].busy) {
 		if (key == hashTable[h].key) {
