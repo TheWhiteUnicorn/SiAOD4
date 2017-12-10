@@ -30,10 +30,10 @@ void resetTable() {
 }
 
 int HashFunc(string key) {
-	char *p_key = new char[key.size()+1];
+	char *p_key = new char[key.size() + 1];
 	strcpy(p_key, key.c_str());
 
-	int cntr = (int)ceil((double)key.size()/2.0) - 1;
+	int cntr = (int)ceil((double)key.size() / 2.0) - 1;
 	unsigned short int sum;
 	_asm {
 		mov ESI, p_key
@@ -41,17 +41,17 @@ int HashFunc(string key) {
 		mov AX, [ESI][EDI]
 		mov ECX, cntr
 		jz fin
-	loop1 :
+		loop1 :
 		inc EDI
-		inc EDI
-		mov DX, [ESI][EDI]
-		add AX, DX
-		adc AX, 0
-		loop loop1
-	fin :
+			inc EDI
+			mov DX, [ESI][EDI]
+			add AX, DX
+			adc AX, 0
+			loop loop1
+			fin :
 		mov sum, AX
 	};
-	
+
 	const double A = 0.6180339887;
 	int h = int(HASH_TABLE_SIZE*fmod((double)sum*A, 1));
 	return h;
@@ -139,11 +139,11 @@ int main() {
 	cout << "  Степень   Количество  |   Среднее число попыток\n";
 	cout << "  заполн. | удач неудач |  при удаче | при неудаче\n";
 	cout << "-------------------------------------------------------\n";
-	
+
 	for (int level = 0; level < 11; level++) { // Проверяем и выводим результаты для разных уровней заполнения
 		//Заполнение
-		while (busyRecCounter < FillLevels[level] * HASH_TABLE_SIZE) { 
-			if(!GetWord(iFile, wordBuf)) iFile.seekg(0);
+		while (busyRecCounter < FillLevels[level] * HASH_TABLE_SIZE) {
+			if (!GetWord(iFile, wordBuf)) iFile.seekg(0);
 			int insExitCode = InsertKey(wordBuf);
 			if (insExitCode == 1) busyRecCounter++;
 			if (insExitCode == 2) break; //Если хоть одно число не поместилось, уже считаем таблицу заполненной
@@ -164,7 +164,7 @@ int main() {
 		avgFail = failures != 0 ? (double)failTries / (double)failures : 0;
 		printf("%8.3f %6i %6i %12.3f %12.3f\n", FillLevels[level], success, failures, avgSucc, avgFail);
 
-		
+
 	}
 	system("pause");
 }
